@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="index">
+  <title>BoxPage</title>
+
+<style id="jsbin-css">
+html,body{
+    background-color: #adcb47;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+.cube-wrap{
+    position: relative;
+    height: 100%;
+    transition: .6s;
+    -webkit-perspective: 2000;
+    -webkit-perspective-origin: 50% 50%;
+}
+#zoom-cube:checked ~ .cube-wrap{
+    transform: scale(1);
+}
+.cube{
+	position: absolute;
+	top: -300px;
+	right: 300px;
+	bottom: 0;
+	left: 0;
+	width: 300px;
+	height: 100px;
+	margin: auto;
+    transition: .8s;
+	-webkit-transform-style: preserve-3d;
+	-webkit-transform-origin: 50% 50% -75px;
+	-webkit-backface-visibility: visible;
+    -moz-transform-style: preserve-3d;
+	-moz-transform-origin: 50% 50% -75px;
+	-moz-backface-visibility: visible;
+}
+#show-front:checked ~ .cube-wrap .cube{
+    -webkit-transform: rotateX(0) rotateY(0);
+    -moz-transform: rotateX(0) rotateY(0);
+}
+#show-back:checked ~ .cube-wrap .cube{
+    -webkit-transform: rotateX(0) rotateY(180deg) translateZ(400px) translateX(-200px);
+    -moz-transform: rotateX(0) rotateY(180deg) translateZ(400px) translateX(-200px);
+}
+#show-left:checked ~ .cube-wrap .cube{
+    -webkit-transform: rotateX(0) rotateY(90deg) translateX(100px) translateZ(200px);
+    -moz-transform: rotateX(0) rotateY(90deg) translateX(100px) translateZ(200px);
+}
+#show-right:checked ~ .cube-wrap .cube{
+    -webkit-transform: rotateX(0) rotateY(-90deg) translateX(-250px) translateZ(200px);
+    -moz-transform: rotateX(0) rotateY(-90deg) translateX(-250px) translateZ(200px);
+}
+#show-top:checked ~ .cube-wrap .cube{
+    -webkit-transform: rotateX(-90deg) rotateY(0) translateZ(200px);
+}
+#show-bottom:checked ~ .cube-wrap .cube{
+    -webkit-transform: rotateX(90deg) rotateY(0) translateZ(100px);
+}
+.cube-face{
+    position: relative;
+	background-color: #eb4c89;
+    outline: 1px solid rgba(0,0,0,.1);
+    outline-offset: -1px;
+}
+.cube-face i{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    margin: auto;
+    color: #fff;
+    font-size: 36px;
+    font-style: normal;
+    text-align: center;
+    line-height: 40px;
+}
+.cube-face-top{
+	position: absolute;
+    width: 500px;
+    height: 500px;
+	top: -500px;
+	left: 0;
+	-webkit-transform: rotateX(90deg);
+	-webkit-transform-origin: 0 100%;
+}
+.cube-face-top:after,
+.cube-face-bottom:after{
+	content: '';
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+.cube-face-left{
+	position: absolute;
+	top: 0;
+    width: 500px;
+    height: 300px;
+	left: -500px;
+	-webkit-transform: rotateY(-90deg);
+	-webkit-transform-origin: 100% 0;
+}
+.cube-face-left:after,
+.cube-face-right:after{
+	content: '';
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	
+}
+.cube-face-front{
+	position: absolute;
+	top: 0;
+	left: 0;
+    width: 500px;
+    height: 300px;
+}
+.cube-face-back{
+	position: absolute;
+	top: 0;
+	left: 0;
+    width: 500px;
+    height: 300px;
+	-webkit-transform: translateZ(-500px) rotateY(180deg);
+}
+.cube-face-right{
+	position: absolute;
+	top: 0;
+    width: 500px;
+    height: 300px;
+	right: -700px;
+	-webkit-transform: rotateY(90deg);
+	-webkit-transform-origin: 0 0;
+}
+.cube-face-bottom{
+	position: absolute;
+	top: 300px;
+    width: 500px;
+    height: 500px;
+	-webkit-transform: rotateX(-90deg);
+	-webkit-transform-origin: 0 0;
+}
+input{
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+.button-wrap{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 840px;
+    height: 50px;
+    margin: 0 auto;
+    font-size: 0;
+    text-align: center;
+}
+.button-wrap label{
+    display: inline-block;
+    width: 120px;
+    height: 50px;
+    margin: 0;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 52px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: .3s;
+    background-color: rgba(255,255,255,.2);
+    transform: translateY(0px);
+}
+.button-wrap:hover label{
+    transform: translateY(0);
+}
+.button-wrap label:hover{
+    background-color: rgba(255,255,255,.3);
+}
+#show-front:checked ~ .button-wrap .for-front,
+#show-back:checked ~ .button-wrap .for-back,
+#show-left:checked ~ .button-wrap .for-left,
+#show-right:checked ~ .button-wrap .for-right,
+#show-top:checked ~ .button-wrap .for-top,
+#show-bottom:checked ~ .button-wrap .for-bottom,
+#zoom-cube:checked ~ .button-wrap .for-zoom-cube{
+    background-color: #fff;
+    color: #eb4c89;
+}
+</style>
+</head>
+<body>
+  <input type="checkbox" id="zoom-cube">
+  <input type="radio" name="cube-controller" id="show-front" checked>
+  <input type="radio" name="cube-controller" id="show-back">
+  <input type="radio" name="cube-controller" id="show-top">
+  <input type="radio" name="cube-controller" id="show-bottom">
+  <input type="radio" name="cube-controller" id="show-left">
+  <input type="radio" name="cube-controller" id="show-right">
+  <div class="cube-wrap">
+    <div class="cube">
+      <div class="cube-face cube-face-front">
+        <div id="description" style="position:absolute;">
+          <div style="width:500px;height:300px;background:white;font-family:Microsoft YaHei;">
+            <div style="width:500px;height:300px;background:#93e0ff;">
+              <div style="height:45px;padding-top:5px;color:white;">
+                <div style="margin-left:25px;margin-top:1px;font-size:200%;display:inline-block;">
+                  王乐天
+                </div>
+                <div style="margin-left:290px;display:inline-block;text-align:right;">
+                  <div>
+                    脑洞一型
+                  </div>
+                  <div style="font-size:90%;">
+                    JIE CAO
+                  </div>
+                </div>
+              </div>
+              <div style="width:500px;height:230px;background:white;">
+                <div style="position:absolute;padding-top:25px;padding-left:25px;">
+                  <div style="width:180px;height:180px;background-image:url('http://avalon.gizeta.me/images/head/1.png');border:1px solid #888888;border-radius:10px;box-shadow: 1px 1px 1px #888888;">
+                  </div>
+                </div>
+                <div style="padding-top:25px;padding-left:240px;color:#93e0ff;">
+                  <div style="height:25px">
+                    <div style="display:inline-block;">
+                      吐槽
+                    </div>
+                    <div style="width:140px;height:11px;margin-left:10px;background:#93e0ff;display:inline-block;">
+                    </div>
+                    <div style="margin-left:20px;display:inline-block;">
+                      90
+                    </div>
+                  </div>
+                  <div style="height:25px">
+                    <div style="display:inline-block;">
+                      设计
+                    </div>
+                    <div style="width:120px;height:11px;margin-left:10px;background:#93e0ff;display:inline-block;">
+                    </div>
+                    <div style="margin-left:40px;display:inline-block;">
+                      80
+                    </div>
+                  </div>
+                  <div style="height:25px">
+                    <div style="display:inline-block;">
+                      交流
+                    </div>
+                    <div style="width:100px;height:11px;margin-left:10px;background:#93e0ff;display:inline-block;">
+                    </div>
+                    <div style="margin-left:60px;display:inline-block;">
+                      70
+                    </div>
+                  </div>
+                  <div style="height:25px">
+                    <div style="display:inline-block;">
+                      代码
+                    </div>
+                    <div style="width:80px;height:11px;margin-left:10px;background:#93e0ff;display:inline-block;">
+                    </div>
+                    <div style="margin-left:80px;display:inline-block;">
+                      60
+                    </div>
+                  </div>
+                  <div style="height:25px">
+                    <div style="display:inline-block;">
+                      合作
+                    </div>
+                    <div style="width:140px;height:11px;margin-left:10px;background:#93e0ff;display:inline-block;">
+                    </div>
+                    <div style="margin-left:20px;display:inline-block;">
+                      90
+                    </div>
+                  </div>
+                  <div style="margin-top:13px;margin-left:5px;color:white;">
+                    <div style="width:40px;height:40px;border-radius:7px;display:inline-block;background:#93e0ff;">
+                      <div style="margin-top:10px;text-align:center;font-size:80%;font-weight:bold;">
+                        C
+                      </div>
+                    </div>
+                    <div style="width:40px;height:40px;border-radius:7px;display:inline-block;background:#93e0ff;">
+                      <div style="margin-top:10px;text-align:center;font-size:80%;font-weight:bold;">
+                        Css
+                      </div>
+                    </div>
+                    <div style="width:40px;height:40px;border-radius:7px;display:inline-block;background:#93e0ff;">
+                      <div style="margin-top:10px;text-align:center;font-size:80%;font-weight:bold;">
+                        Js
+                      </div>
+                    </div>
+                    <div style="width:50px;height:40px;border-radius:7px;display:inline-block;background:#93e0ff;">
+                      <div style="margin-top:10px;text-align:center;font-size:80%;font-weight:bold;">
+                        Html
+                      </div>
+                    </div>
+                    <div style="width:50px;height:40px;border-radius:7px;display:inline-block;background:#93e0ff;">
+                      <div style="margin-top:10px;text-align:center;font-size:80%;font-weight:bold;">
+                        React
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cube-face cube-face-back">
+        <div id="description" style="position:absolute;">
+          <div style="width:500px;height:300px;background:white;font-family:Microsoft YaHei;">
+            <div style="width:500px;height:300px;background:#93e0ff;">
+              <div style="height:45px;padding-top:5px;color:white;">
+                <div style="margin-left:25px;margin-top:1px;font-size:200%;display:inline-block;">
+                  李昕宇
+                </div>
+                <div style="margin-left:290px;display:inline-block;text-align:right;">
+                  <div>
+                    脑洞一型
+                  </div>
+                  <div style="font-size:90%;">
+                    JIE CAO
+                  </div>
+                </div>
+              </div>
+              <div style="width:500px;height:230px;background:white;">
+                <div style="position:absolute;padding-top:25px;padding-left:25px;">
+                  <div style="width:180px;height:180px;background-image:url('http://avalon.gizeta.me/images/head/1.png');border:1px solid #888888;border-radius:10px;box-shadow: 1px 1px 1px #888888;">
+                  </div>
+                </div>
+                <div style="padding-top:25px;padding-left:240px;color:#93e0ff;">
+                  <div style="height:25px">
+                    <div style="display:inline-block;">
+                      吐槽
+                    </div>
+                    <div style="width:140px;height:11px;margin-left:10px;background:#93e0ff;display:inline-block;">
+                    </div>
+                    <div style="margin-left:20px;display:inline-block;">
+                      90
+                    </div>
+                  </div>
+                  <div style="height:25px">
+                    <div style="display:inline-block;">
+                      设计
+                    </div>
+                    <div style="width:120px;height:11px;margin-left:10px;background:#93e0ff;display:inline-block;">
+                    </div>
+                    <div style="margin-left:40px;display:inline-block;">
+                      80
+                    </div>
+                  </div>
+                  <div style="height:25px">
+                    <div style="display:inline-block;">
+                      交流
+                    </div>
+                    <div style="width:100px;height:11px;margin-left:10px;background:#93e0ff;display:inline-block;">
+                    </div>
+                    <div style="margin-left:60px;display:inline-block;">
+                      70
+                    </div>
+                  </div>
+                  <div style="height:25px">
+                    <div style="display:inline-block;">
+                      代码
+                    </div>
+                    <div style="width:80px;height:11px;margin-left:10px;background:#93e0ff;display:inline-block;">
+                    </div>
+                    <div style="margin-left:80px;display:inline-block;">
+                      60
+                    </div>
+                  </div>
+                  <div style="height:25px">
+                    <div style="display:inline-block;">
+                      合作
+                    </div>
+                    <div style="width:140px;height:11px;margin-left:10px;background:#93e0ff;display:inline-block;">
+                    </div>
+                    <div style="margin-left:20px;display:inline-block;">
+                      90
+                    </div>
+                  </div>
+                  <div style="margin-top:13px;margin-left:5px;color:white;">
+                    <div style="width:40px;height:40px;border-radius:7px;display:inline-block;background:#93e0ff;">
+                      <div style="margin-top:10px;text-align:center;font-size:80%;font-weight:bold;">
+                        C
+                      </div>
+                    </div>
+                    <div style="width:40px;height:40px;border-radius:7px;display:inline-block;background:#93e0ff;">
+                      <div style="margin-top:10px;text-align:center;font-size:80%;font-weight:bold;">
+                        Css
+                      </div>
+                    </div>
+                    <div style="width:40px;height:40px;border-radius:7px;display:inline-block;background:#93e0ff;">
+                      <div style="margin-top:10px;text-align:center;font-size:80%;font-weight:bold;">
+                        Js
+                      </div>
+                    </div>
+                    <div style="width:50px;height:40px;border-radius:7px;display:inline-block;background:#93e0ff;">
+                      <div style="margin-top:10px;text-align:center;font-size:80%;font-weight:bold;">
+                        Html
+                      </div>
+                    </div>
+                    <div style="width:50px;height:40px;border-radius:7px;display:inline-block;background:#93e0ff;">
+                      <div style="margin-top:10px;text-align:center;font-size:80%;font-weight:bold;">
+                        React
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cube-face cube-face-top">
+        <img style="width:500px;height:500px;" src="CNU.png" />
+      </div>
+      <div class="cube-face cube-face-left">
+        <div id="description" style="position:absolute;">
+          <div style="width:500px;height:300px;background:white;font-family:Microsoft YaHei;">
+            <div style="width:500px;height:300px;background:#93e0ff;">
+              <div style="height:45px;padding-top:5px;color:white;">
+                <div style="margin-left:25px;margin-top:1px;font-size:200%;display:inline-block;">
+                  徐航
+                </div>
+                <div style="margin-left:290px;display:inline-block;text-align:right;">
+                  <div>
+                    脑洞一型
+                  </div>
+                  <div style="font-size:90%;">
+                    JIE CAO
+                  </div>
+                </div>
+              </div>
+              <div style="width:500px;height:230px;background:white;">
+                <div style="position:absolute;padding-top:25px;padding-left:25px;">
+                  <div style="width:180px;height:180px;background-image:url('http://avalon.gizeta.me/images/head/1.png');border:1px solid #888888;border-radius:10px;box-shadow: 1px 1px 1px #888888;">
+                  </div>
+                </div>
+                <div style="padding-top:25px;padding-left:240px;color:#93e0ff;">
+                  <div style="height:25px">
+                    <div style="display:inline-block;">
+                      吐槽
+                    </div>
+                    <div style="width:140px;height:11px;margin-left:10px;background:#93e0ff;display:inline-block;">
+                    </div>
+                    <div style="margin-left:20px;display:inline-block;">
+                      90
+                    </div>
+                  </div>
+                  <div style="height:25px">
+                    <div style="display:inline-block;">
+                      设计
+                    </div>
+                    <div style="width:120px;height:11px;margin-left:10px;background:#93e0ff;display:inline-block;">
+                    </div>
+                    <div style="margin-left:40px;display:inline-block;">
+                      80
+                    </div>
+                  </div>
+                  <div style="height:25px">
+                    <div style="display:inline-block;">
+                      交流
+                    </div>
+                    <div style="width:100px;height:11px;margin-left:10px;background:#93e0ff;display:inline-block;">
+                    </div>
+                    <div style="margin-left:60px;display:inline-block;">
+                      70
+                    </div>
+                  </div>
+                  <div style="height:25px">
+                    <div style="display:inline-block;">
+                      代码
+                    </div>
+                    <div style="width:80px;height:11px;margin-left:10px;background:#93e0ff;display:inline-block;">
+                    </div>
+                    <div style="margin-left:80px;display:inline-block;">
+                      60
+                    </div>
+                  </div>
+                  <div style="height:25px">
+                    <div style="display:inline-block;">
+                      合作
+                    </div>
+                    <div style="width:140px;height:11px;margin-left:10px;background:#93e0ff;display:inline-block;">
+                    </div>
+                    <div style="margin-left:20px;display:inline-block;">
+                      90
+                    </div>
+                  </div>
+                  <div style="margin-top:13px;margin-left:5px;color:white;">
+                    <div style="width:40px;height:40px;border-radius:7px;display:inline-block;background:#93e0ff;">
+                      <div style="margin-top:10px;text-align:center;font-size:80%;font-weight:bold;">
+                        C
+                      </div>
+                    </div>
+                    <div style="width:40px;height:40px;border-radius:7px;display:inline-block;background:#93e0ff;">
+                      <div style="margin-top:10px;text-align:center;font-size:80%;font-weight:bold;">
+                        Css
+                      </div>
+                    </div>
+                    <div style="width:40px;height:40px;border-radius:7px;display:inline-block;background:#93e0ff;">
+                      <div style="margin-top:10px;text-align:center;font-size:80%;font-weight:bold;">
+                        Js
+                      </div>
+                    </div>
+                    <div style="width:50px;height:40px;border-radius:7px;display:inline-block;background:#93e0ff;">
+                      <div style="margin-top:10px;text-align:center;font-size:80%;font-weight:bold;">
+                        Html
+                      </div>
+                    </div>
+                    <div style="width:50px;height:40px;border-radius:7px;display:inline-block;background:#93e0ff;">
+                      <div style="margin-top:10px;text-align:center;font-size:80%;font-weight:bold;">
+                        React
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cube-face cube-face-right">
+        <div id="description" style="position:absolute;">
+          <div style="width:500px;height:300px;background:white;font-family:Microsoft YaHei;">
+            <div style="width:500px;height:300px;background:#93e0ff;">
+              <div style="height:45px;padding-top:5px;color:white;">
+                <div style="margin-left:25px;margin-top:1px;font-size:200%;display:inline-block;">
+                  韩特
+                </div>
+                <div style="margin-left:290px;display:inline-block;text-align:right;">
+                  <div>
+                    脑洞一型
+                  </div>
+                  <div style="font-size:90%;">
+                    JIE CAO
+                  </div>
+                </div>
+              </div>
+              <div style="width:500px;height:230px;background:white;">
+                <div style="position:absolute;padding-top:25px;padding-left:25px;">
+                  <div style="width:180px;height:180px;background-image:url('http://avalon.gizeta.me/images/head/1.png');border:1px solid #888888;border-radius:10px;box-shadow: 1px 1px 1px #888888;">
+                  </div>
+                </div>
+                <div style="padding-top:25px;padding-left:240px;color:#93e0ff;">
+                  <div style="height:25px">
+                    <div style="display:inline-block;">
+                      吐槽
+                    </div>
+                    <div style="width:140px;height:11px;margin-left:10px;background:#93e0ff;display:inline-block;">
+                    </div>
+                    <div style="margin-left:20px;display:inline-block;">
+                      90
+                    </div>
+                  </div>
+                  <div style="height:25px">
+                    <div style="display:inline-block;">
+                      设计
+                    </div>
+                    <div style="width:120px;height:11px;margin-left:10px;background:#93e0ff;display:inline-block;">
+                    </div>
+                    <div style="margin-left:40px;display:inline-block;">
+                      80
+                    </div>
+                  </div>
+                  <div style="height:25px">
+                    <div style="display:inline-block;">
+                      交流
+                    </div>
+                    <div style="width:100px;height:11px;margin-left:10px;background:#93e0ff;display:inline-block;">
+                    </div>
+                    <div style="margin-left:60px;display:inline-block;">
+                      70
+                    </div>
+                  </div>
+                  <div style="height:25px">
+                    <div style="display:inline-block;">
+                      代码
+                    </div>
+                    <div style="width:80px;height:11px;margin-left:10px;background:#93e0ff;display:inline-block;">
+                    </div>
+                    <div style="margin-left:80px;display:inline-block;">
+                      60
+                    </div>
+                  </div>
+                  <div style="height:25px">
+                    <div style="display:inline-block;">
+                      合作
+                    </div>
+                    <div style="width:140px;height:11px;margin-left:10px;background:#93e0ff;display:inline-block;">
+                    </div>
+                    <div style="margin-left:20px;display:inline-block;">
+                      90
+                    </div>
+                  </div>
+                  <div style="margin-top:13px;margin-left:5px;color:white;">
+                    <div style="width:40px;height:40px;border-radius:7px;display:inline-block;background:#93e0ff;">
+                      <div style="margin-top:10px;text-align:center;font-size:80%;font-weight:bold;">
+                        C
+                      </div>
+                    </div>
+                    <div style="width:40px;height:40px;border-radius:7px;display:inline-block;background:#93e0ff;">
+                      <div style="margin-top:10px;text-align:center;font-size:80%;font-weight:bold;">
+                        Css
+                      </div>
+                    </div>
+                    <div style="width:40px;height:40px;border-radius:7px;display:inline-block;background:#93e0ff;">
+                      <div style="margin-top:10px;text-align:center;font-size:80%;font-weight:bold;">
+                        Js
+                      </div>
+                    </div>
+                    <div style="width:50px;height:40px;border-radius:7px;display:inline-block;background:#93e0ff;">
+                      <div style="margin-top:10px;text-align:center;font-size:80%;font-weight:bold;">
+                        Html
+                      </div>
+                    </div>
+                    <div style="width:50px;height:40px;border-radius:7px;display:inline-block;background:#93e0ff;">
+                      <div style="margin-top:10px;text-align:center;font-size:80%;font-weight:bold;">
+                        React
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cube-face cube-face-bottom">
+        <i>
+          郭菁华's position
+        </i>
+      </div>
+    </div>
+  </div>
+  <div class="button-wrap">
+    <label class="for-front" for="show-front">
+      王乐天
+    </label>
+    <label class="for-back" for="show-back">
+      李昕宇
+    </label>
+    <label class="for-top" for="show-top">
+      上
+    </label>
+    <label class="for-bottom" for="show-bottom">
+      下
+    </label>
+    <label class="for-left" for="show-left">
+      徐航
+    </label>
+    <label class="for-right" for="show-right">
+      韩特
+    </label>
+    <!--
+    <label class="for-zoom-cube" for="zoom-cube">
+      缩放
+    </label>
+    -->
+  </div>
+
+</body>
+</html>
