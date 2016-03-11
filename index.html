@@ -36,8 +36,8 @@ html,body{
 	-webkit-transform-style: preserve-3d;
 	-webkit-transform-origin: 250px 150px -250px;
 	-webkit-backface-visibility: visible;
-    -moz-transform-style: preserve-3d;
-	-moz-transform-origin: 50% 50% -75px;
+	-moz-transform-style: preserve-3d;
+	-moz-transform-origin: 250px 150px -250px;
 	-moz-backface-visibility: visible;
 }
 #show-front:checked ~ .cube-wrap .cube{
@@ -46,21 +46,23 @@ html,body{
 }
 #show-back:checked ~ .cube-wrap .cube{
     -webkit-transform: rotateX(0) rotateY(180deg);
-    -moz-transform: rotateX(0) rotateY(180deg) translateZ(400px) translateX(-193px);
+    -moz-transform: rotateX(0) rotateY(180deg);
 }
 #show-left:checked ~ .cube-wrap .cube{
     -webkit-transform: rotateX(0) rotateY(90deg);
-    -moz-transform: rotateX(0) rotateY(90deg) translateX(100px) translateZ(200px);
+    -moz-transform: rotateX(0) rotateY(90deg);
 }
 #show-right:checked ~ .cube-wrap .cube{
     -webkit-transform: rotateX(0) rotateY(-90deg);
-    -moz-transform: rotateX(0) rotateY(-90deg) translateX(-250px) translateZ(200px);
+    -moz-transform: rotateX(0) rotateY(-90deg);
 }
 #show-top:checked ~ .cube-wrap .cube{
     -webkit-transform: rotateX(-90deg) rotateY(0) translateY(-100px) translateZ(25px);
+    -moz-transform: rotateX(-90deg) rotateY(0) translateY(-100px) translateZ(25px);
 }
 #show-bottom:checked ~ .cube-wrap .cube{
-    -webkit-transform: rotateX(90deg) rotateY(0) translateY(100px) translateZ(-25px);;
+    -webkit-transform: rotateX(90deg) rotateY(0) translateY(100px) translateZ(-25px);
+    -moz-transform: rotateX(90deg) rotateY(0) translateY(100px) translateZ(-25px);
 }
 .cube-face{
     position: relative;
@@ -91,6 +93,8 @@ html,body{
 	left: 0;
 	-webkit-transform: rotateX(90deg);
 	-webkit-transform-origin: 0 100%;
+    -moz-transform: rotateX(90deg);
+	-moz-transform-origin: 0 100%;
 }
 .cube-face-top:after,
 .cube-face-bottom:after{
@@ -110,6 +114,8 @@ html,body{
 	left: -500px;
 	-webkit-transform: rotateY(-90deg);
 	-webkit-transform-origin: 100% 0;
+    -moz-transform: rotateY(-90deg);
+	-moz-transform-origin: 100% 0;
 }
 .cube-face-left:after,
 .cube-face-right:after{
@@ -129,6 +135,11 @@ html,body{
     width: 500px;
     height: 300px;
 }
+@-moz-document url-prefix() { 
+  .cube-face-front {
+     z-index: 2;
+  }
+}
 .cube-face-back{
 	position: absolute;
 	top: 0;
@@ -136,6 +147,7 @@ html,body{
     width: 500px;
     height: 300px;
 	-webkit-transform: translateZ(-500px) rotateY(180deg);
+    -moz-transform: translateZ(-500px) rotateY(180deg);
 }
 .cube-face-right{
 	position: absolute;
@@ -145,6 +157,8 @@ html,body{
 	right: -700px;
 	-webkit-transform: rotateY(90deg);
 	-webkit-transform-origin: 0 0;
+    -moz-transform: rotateY(90deg);
+	-moz-transform-origin: 0 0;
 }
 .cube-face-bottom{
 	position: absolute;
@@ -153,6 +167,8 @@ html,body{
     height: 500px;
 	-webkit-transform: rotateX(-90deg);
 	-webkit-transform-origin: 0 0;
+    -moz-transform: rotateX(-90deg);
+	-moz-transform-origin: 0 0;
 }
 input{
     position: absolute;
