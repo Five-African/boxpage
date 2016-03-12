@@ -1,341 +1,89 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="robots" content="index">
-  <title>BoxPage</title>
-  <link rel="stylesheet" href="css/style.css">
-<style id="jsbin-css">
-html,body{
-    background-color: #adcb47;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
-.cube-wrap{
-    position: relative;
-    height: 100%;
-    transition: .6s;
-    -webkit-perspective: 2000;
-    -webkit-perspective-origin: 50% 50%;
-}
-#zoom-cube:checked ~ .cube-wrap{
-    transform: scale(1);
-}
-.cube{
-	position: absolute;
-	top: -300px;
-	right: 300px;
-	bottom: 0;
-	left: 0;
-	width: 300px;
-	height: 100px;
-	margin: auto;
-    transition: .8s;
-	-webkit-transform-style: preserve-3d;
-	-webkit-transform-origin: 250px 150px -250px;
-	-webkit-backface-visibility: visible;
-	-moz-transform-style: preserve-3d;
-	-moz-transform-origin: 250px 150px -250px;
-	-moz-backface-visibility: visible;
-}
-#show-front:checked ~ .cube-wrap .cube{
-    -webkit-transform: rotateX(0) rotateY(0);
-    -moz-transform: rotateX(0) rotateY(0);
-}
-#show-back:checked ~ .cube-wrap .cube{
-    -webkit-transform: rotateX(0) rotateY(180deg);
-    -moz-transform: rotateX(0) rotateY(180deg);
-}
-#show-left:checked ~ .cube-wrap .cube{
-    -webkit-transform: rotateX(0) rotateY(90deg);
-    -moz-transform: rotateX(0) rotateY(90deg);
-}
-#show-right:checked ~ .cube-wrap .cube{
-    -webkit-transform: rotateX(0) rotateY(-90deg);
-    -moz-transform: rotateX(0) rotateY(-90deg);
-}
-#show-top:checked ~ .cube-wrap .cube{
-    -webkit-transform: rotateX(-90deg) rotateY(0) translateY(-100px) translateZ(25px);
-    -moz-transform: rotateX(-90deg) rotateY(0) translateY(-100px) translateZ(25px);
-}
-#show-bottom:checked ~ .cube-wrap .cube{
-    -webkit-transform: rotateX(90deg) rotateY(0) translateY(100px) translateZ(-25px);
-    -moz-transform: rotateX(90deg) rotateY(0) translateY(100px) translateZ(-25px);
-}
-.cube-face{
-    position: relative;
-	background-color: #eb4c89;
-    outline: 1px solid rgba(0,0,0,.1);
-    outline-offset: -1px;
-}
-.cube-face i{
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 40px;
-    height: 40px;
-    margin: auto;
-    color: #fff;
-    font-size: 36px;
-    font-style: normal;
-    text-align: center;
-    line-height: 40px;
-}
-.cube-face-top{
-	position: absolute;
-    width: 500px;
-    height: 500px;
-	top: -500px;
-	left: 0;
-	-webkit-transform: rotateX(90deg);
-	-webkit-transform-origin: 0 100%;
-    -moz-transform: rotateX(90deg);
-	-moz-transform-origin: 0 100%;
-}
-.cube-face-top:after,
-.cube-face-bottom:after{
-	content: '';
-	display: block;
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-}
-.cube-face-left{
-	position: absolute;
-	top: 0;
-    width: 500px;
-    height: 300px;
-	left: -500px;
-	-webkit-transform: rotateY(-90deg);
-	-webkit-transform-origin: 100% 0;
-    -moz-transform: rotateY(-90deg);
-	-moz-transform-origin: 100% 0;
-}
-.cube-face-left:after,
-.cube-face-right:after{
-	content: '';
-	display: block;
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	
-}
-.cube-face-front{
-	position: absolute;
-	top: 0;
-	left: 0;
-    width: 500px;
-    height: 300px;
-}
-@-moz-document url-prefix() { 
-  .cube-face-front {
-     z-index: 2;
-  }
-}
-.cube-face-back{
-	position: absolute;
-	top: 0;
-	left: 0;
-    width: 500px;
-    height: 300px;
-	-webkit-transform: translateZ(-500px) rotateY(180deg);
-    -moz-transform: translateZ(-500px) rotateY(180deg);
-}
-.cube-face-right{
-	position: absolute;
-	top: 0;
-    width: 500px;
-    height: 300px;
-	right: -700px;
-	-webkit-transform: rotateY(90deg);
-	-webkit-transform-origin: 0 0;
-    -moz-transform: rotateY(90deg);
-	-moz-transform-origin: 0 0;
-}
-.cube-face-bottom{
-	position: absolute;
-	top: 300px;
-    width: 500px;
-    height: 500px;
-	-webkit-transform: rotateX(-90deg);
-	-webkit-transform-origin: 0 0;
-    -moz-transform: rotateX(-90deg);
-	-moz-transform-origin: 0 0;
-}
-input{
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
-}
-.button-wrap{
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 840px;
-    height: 50px;
-    margin: 0 auto;
-    font-size: 0;
-    text-align: center;
-}
-.button-wrap label{
-    display: inline-block;
-    width: 120px;
-    height: 50px;
-    margin: 0;
-    color: #fff;
-    font-size: 12px;
-    font-weight: bold;
-    line-height: 52px;
-    text-align: center;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: .3s;
-    background-color: rgba(255,255,255,.2);
-    transform: translateY(0px);
-}
-.button-wrap:hover label{
-    transform: translateY(0);
-}
-.button-wrap label:hover{
-    background-color: rgba(255,255,255,.3);
-}
-#show-front:checked ~ .button-wrap .for-front,
-#show-back:checked ~ .button-wrap .for-back,
-#show-left:checked ~ .button-wrap .for-left,
-#show-right:checked ~ .button-wrap .for-right,
-#show-top:checked ~ .button-wrap .for-top,
-#show-bottom:checked ~ .button-wrap .for-bottom,
-#zoom-cube:checked ~ .button-wrap .for-zoom-cube{
-    background-color: #fff;
-    color: #eb4c89;
-}
-</style>
-</head>
-<body>
-  <input type="checkbox" id="zoom-cube">
-  <input type="radio" name="cube-controller" id="show-front" checked>
-  <input type="radio" name="cube-controller" id="show-back">
-  <input type="radio" name="cube-controller" id="show-top">
-  <input type="radio" name="cube-controller" id="show-bottom">
-  <input type="radio" name="cube-controller" id="show-left">
-  <input type="radio" name="cube-controller" id="show-right">
-  <div class="cube-wrap">
-    <div class="cube">
-      <div class="cube-face cube-face-front">
-        <div class="main-border">
-            <div class="main-bg">
-            <div class="title">
-                <div class="name normal">Clect</div>
-                <div class="normal">.beta</div>
-                <div class="type normal">
-                <div>脑洞一型</div>
-                <div class="PinYin">JIE CAO</div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="icon" style="background-image:url('http://avalon.gizeta.me/images/head/1.png');"></div>
-                <div class="ability-container" >
-                <div>
-                    <div class="normal">吐槽</div>
-                    <div class="normal ability-slot-container"><div style="width:135px;" class="normal ability"></div></div>
-                    <div class="normal">90</div>
-                </div>
-                <div>
-                    <div class="normal">设计</div>
-                    <div class="normal ability-slot-container"><div style="width:120px;" class="normal ability"></div></div>
-                    <div class="normal">80</div>
-                </div>
-                <div>
-                    <div class="normal">交流</div>
-                    <div class="normal ability-slot-container"><div style="width:105px;" class="normal ability"></div></div>
-                    <div class="normal">70</div>
-                </div>
-                <div>
-                    <div class="normal">代码</div>
-                    <div class="normal ability-slot-container"><div style="width:90px;" class="normal ability"></div></div>
-                    <div class="normal">60</div>
-                </div>
-                <div>
-                    <div class="normal">合作</div>
-                    <div class="normal ability-slot-container"><div style="width:135px;" class="normal ability"></div></div>
-                    <div class="normal">90</div>
-                </div>
-                <div class="skill-container">
-                    <div class="normal skill-border">
-                    <div class="skill">C</div>
-                    </div>
-                    <div class="normal skill-border">
-                    <div class="skill">C#</div>
-                    </div>
-                    <div class="normal skill-border">
-                    <div class="skill">Html</div>
-                    </div>
-                    <div class="normal skill-border">
-                    <div class="skill">Css</div>
-                    </div>
-                    <div class="normal skill-border">
-                    <div class="skill">Js</div>
-                    </div>
-                </div>
-                </div>
-            </div>
-            </div>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta name="robots" content="index">
+    <title>
+      BoxPage
+    </title>
+    <link rel="stylesheet" type="text/css" href="css/component.css" />
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/clect.css">
+    <style id="jsbin-css">
+    </style>
+  </head>
+  
+  <body>
+    <div class="container demo-1">
+      <div class="content">
+        <div id="large-header" class="large-header">
+          <canvas id="demo-canvas">
+          </canvas>
+          
         </div>
       </div>
-      <div class="cube-face cube-face-back">
-        
-      </div>
-      <div class="cube-face cube-face-top">
-        <img style="width:500px;height:500px;" src="CNU.png" />
-      </div>
-      <div class="cube-face cube-face-left">
-        
-      </div>
-      <div class="cube-face cube-face-right">
-        
-      </div>
-      <div class="cube-face cube-face-bottom">
-        <i>
-          leader's position
-        </i>
+    </div>
+    
+    <input type="checkbox" id="zoom-cube">
+    <input type="radio" name="cube-controller" id="show-front" checked>
+    <input type="radio" name="cube-controller" id="show-back">
+    <input type="radio" name="cube-controller" id="show-top">
+    <input type="radio" name="cube-controller" id="show-bottom">
+    <input type="radio" name="cube-controller" id="show-left">
+    <input type="radio" name="cube-controller" id="show-right">
+    <div class="cube-wrap">
+      <div class="cube">
+        <div class="cube-face cube-face-front">
+          <div class="main-border">
+
+          </div>
+        </div>
+        <div class="cube-face cube-face-back">
+        </div>
+        <div class="cube-face cube-face-top">
+          <img style="width:500px;height:500px;" src="CNU.png" />
+        </div>
+        <div class="cube-face cube-face-left">
+        </div>
+        <div class="cube-face cube-face-right">
+        </div>
+        <div class="cube-face cube-face-bottom">
+          <i>
+            leader's position
+          </i>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="button-wrap">
-    <label class="for-front" for="show-front">
-      Clect
-    </label>
-    <label class="for-back" for="show-back">
-      王
-    </label>
-    <label class="for-top" for="show-top">
-      Five-African
-    </label>
-    <label class="for-bottom" for="show-bottom">
-      郭
-    </label>
-    <label class="for-left" for="show-left">
-      徐
-    </label>
-    <label class="for-right" for="show-right">
-      韩
-    </label>
-    <!--
-    <label class="for-zoom-cube" for="zoom-cube">
-      缩放
-    </label>
-    -->
-  </div>
+    <div class="button-wrap">
+      <label class="for-front" for="show-front">
+        Clect
+      </label>
+      <label class="for-back" for="show-back">
+        王
+      </label>
+      <label class="for-top" for="show-top">
+        Five-African
+      </label>
+      <label class="for-bottom" for="show-bottom">
+        郭
+      </label>
+      <label class="for-left" for="show-left">
+        徐
+      </label>
+      <label class="for-right" for="show-right">
+        韩
+      </label>
+    </div>
+    
+    <script src="js/TweenLite.min.js">
+    </script>
+    <script src="js/EasePack.min.js">
+    </script>
+    <script src="js/rAF.js">
+    </script>
+    <script src="js/demo-1.js">
+    </script>
+  </body>
 
-</body>
 </html>
