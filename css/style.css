@@ -18,14 +18,14 @@ html,body{
 }
 .cube{
 	position: absolute;
-	top: -300px;
-	right: 300px;
+	top: 0;
+	right: 0;
 	bottom: 0;
 	left: 0;
-	width: 300px;
-	height: 100px;
+	width: 500px;
+	height: 300px;
 	margin: auto;
-    transition: .8s;
+	transition: .8s;
 	-webkit-transform-style: preserve-3d;
 	-webkit-transform-origin: 250px 150px -250px;
 	-webkit-backface-visibility: visible;
@@ -147,7 +147,7 @@ html,body{
 	top: 0;
     width: 500px;
     height: 300px;
-	right: -700px;
+	right: -500px;
 	-webkit-transform: rotateY(90deg);
 	-webkit-transform-origin: 0 0;
     -moz-transform: rotateY(90deg);
